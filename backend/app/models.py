@@ -1,5 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
-
 from app import db
 
 
@@ -17,9 +15,16 @@ class Questions(db.Model):
     level_id = db.Column(db.ForeignKey("levels.id"), index=True, nullable=False)
     question_text = db.Column(db.String(140), nullable=False)
 
+    levels = db.relationship(
+        "Level",
+        primaryjoin="Questions.level_id == Level.id",
+        backref="questions",
+    )
+
     @classmethod
     def create_question(cls, question, answers):
         """Inserts a question inside Questions table and its associated answers inside Answers table
+
         Args:
             question: `dictionary` where the key is a `string` question_text
             and the value is an `int` representing the level_id
@@ -49,5 +54,11 @@ class Answers(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, unique=True)
     question_id = db.Column(db.ForeignKey("questions.id"), index=True, nullable=False)
-    answer_text = db.Column(db.String(25), nullable=False)
+    answer_text = db.Column(db.String(30), nullable=False)
     correct = db.Column(db.Integer, nullable=False)
+
+    questions = db.relationship(
+        "Questions",
+        primaryjoin="Answers.question_id == Questions.id",
+        backref="answers",
+    )
