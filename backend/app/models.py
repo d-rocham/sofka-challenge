@@ -15,7 +15,7 @@ class Questions(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, unique=True)
     level_id = db.Column(db.ForeignKey("level.id"), index=True, nullable=False)
-    question_text = db.Column(db.String("140", nullable=False))
+    question_text = db.Column(db.String("140"), nullable=False)
 
 
 class Answers(db.Model):
