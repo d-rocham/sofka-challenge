@@ -1,7 +1,6 @@
 import os
 
 from app import create_app, db
-from app.helpers.create_questions import create_questions
 from app.models import Answers, Level, Questions
 
 app = create_app(os.getenv("FLASK_CONFIG") or "default")
@@ -24,5 +23,4 @@ def make_shell_context_processor():
         Level=Level,
         Questions=Questions,
         db=db,
-        create_questions=create_questions,
     )
