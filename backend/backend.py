@@ -1,6 +1,6 @@
 import os
 
-from app import create_app
+from app import create_app, db
 from app.models import Answers, Level, Questions
 
 app = create_app(os.getenv("FLASK_CONFIG") or "default")
@@ -17,4 +17,6 @@ def make_shell_context_processor():
         `dictionary` containing any data to be used inside the shell
 
     """
-    return dict(config=app.config, Answers=Answers, Level=Level, Questions=Questions)
+    return dict(
+        config=app.config, Answers=Answers, Level=Level, Questions=Questions, db=db
+    )
