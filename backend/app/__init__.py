@@ -43,7 +43,7 @@ def create_app(config_name):
 
     # Once the app is created, initialize extesions.
     db.init_app(app)
-    migrate.init_app(app)
+    migrate.init_app(app, db)
 
     # TODO: Import, register application Blueprints
 
