@@ -41,10 +41,13 @@ def create_app(config_name):
         app.logger.setLevel(logging.INFO)
         app.logger.info("Backend")
 
-    # Once the app is created, initialize extesions.
+    # Once the app is created, initialize extensions.
     db.init_app(app)
     migrate.init_app(app, db)
 
-    # TODO: Import, register application Blueprints
+    # Import & register application blueprints
+    from .api import api_bp
+
+    app.register_blueprint(api_bp)
 
     return app

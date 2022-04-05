@@ -9,5 +9,5 @@ class questions(Resource):
         # Fetch all game leves from database
         game_levels = Level.get_all()
 
-        # Reeturn list of formatted levels to client
+        # Return list of formated levels to client
         return [level.assemble() for level in game_levels]
