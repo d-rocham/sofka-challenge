@@ -5,7 +5,9 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "plugin:eslint-plugin-react-hooks/recommended",
+        "prettier"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -14,9 +16,12 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": [
-        "react"
-    ],
+    "plugins": ["react", "react-hooks", "prettier", "disable"],
+    "processor": "disable/disable",
     "rules": {
+        "prettier/prettier": "error",
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/prop-types": [0],
+        "react/no-array-index-key": [1]
     }
 }
