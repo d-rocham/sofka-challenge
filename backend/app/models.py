@@ -45,13 +45,20 @@ class Questions(db.Model):
 
         Args:
             question: `dictionary` where the key is a `string` question_text
-            and the value is an `int` representing the level_id
+            and the value is an `int` representing the level_id.
 
-            answers: `dictionary`with 4 key, value pairs where each key is a `string` representing
-            `Answers.answer_text` and the value is an `int` representing Answers.correct`
+            answers: `dictionary`with 4 key, value pairs where each key is a `string`
+            representing `Answers.answer_text` and each value is an
+            `int` representing Answers.correct`.
 
-        Returns: TODO:
+        Returns:
+            `ValueError` or `KeyError` if the provided arguments aren't
+            formated as required.
+
+            `SQLAlchemy.rowObject` if the question is succesfully added
         """
+        keys = list(question.keys())
+        values = list(answers.values())
 
         # Check for input errors
         if len(question) != 2:
@@ -60,18 +67,19 @@ class Questions(db.Model):
         elif len(answers) != 4:
             raise ValueError("Answers dictionary must have 4 key, value pairs")
 
-        elif (
-            list(question.keys())[0] != "question_text"
-            or list(question.keys())[1] != "level_id"
-        ):
+        elif "question_text" not in keys or "level_id" not in keys:
             raise KeyError("Wrong keys in question dictionary")
 
-        elif 1 not in list(answers.values()):
+        elif question["level_id"] not in [level.id for level in Level.get_all()]:
+            raise ValueError("Requested level does not exist")
+
+        elif 1 not in values:
             raise ValueError("A correct option must be provided")
 
-        elif list(answers.values()).count(1) > 1:
+        elif values.count(1) > 1:
             raise ValueError("Only 1 answer can be correct")
 
+        # Once data is verified, add new question & answers to their respective tables
         new_question = cls(
             level_id=question["level_id"], question_text=question["question_text"]
         )
