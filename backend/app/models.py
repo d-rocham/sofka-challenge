@@ -10,6 +10,8 @@ class Level(db.Model):
     level_prize = db.Column(db.Integer, nullable=False)
 
     def assemble(self):
+        """Builds & returns dictionary with level information, randomly chosen question
+        and its answers"""
 
         random_question = random.choice(self.questions)
 
@@ -18,6 +20,10 @@ class Level(db.Model):
             "prize": self.level_prize,
             "questions": random_question.assemble(),
         }
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
 
 
 class Questions(db.Model):
@@ -61,6 +67,8 @@ class Questions(db.Model):
             db.session.commit()
 
     def assemble(self):
+        """Returns dictionary with question text and list with its answers"""
+
         return {
             "question_text": self.question_text,
             "answers": [answer.assemble() for answer in self.answers],
@@ -82,4 +90,6 @@ class Answers(db.Model):
     )
 
     def assemble(self):
+        """Returns dictionary with answer text and correct status"""
+
         return {"answer_text": self.answer_text, "correct": self.correct}
