@@ -1,3 +1,5 @@
+""" Testing module. Run in CLI with `flask test` within the local environment"""
+
 import unittest
 
 from app import create_app

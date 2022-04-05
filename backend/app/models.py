@@ -39,6 +39,14 @@ class Questions(db.Model):
         backref="questions",
     )
 
+    def assemble(self):
+        """Returns dictionary with question text and list with its answers"""
+
+        return {
+            "question_text": self.question_text,
+            "answers": [answer.assemble() for answer in self.answers],
+        }
+
     @classmethod
     def create_question(cls, question, answers):
         """Inserts a question inside Questions table and its associated answers inside Answers table
@@ -55,7 +63,7 @@ class Questions(db.Model):
             `ValueError` or `KeyError` if the provided arguments aren't
             formated as required.
 
-            `SQLAlchemy.rowObject` if the question is succesfully added
+            `dict` if the question is succesfully added, created by questions.assemble()
         """
         keys = list(question.keys())
         values = list(answers.values())
@@ -94,13 +102,7 @@ class Questions(db.Model):
             db.session.add(new_answer)
             db.session.commit()
 
-    def assemble(self):
-        """Returns dictionary with question text and list with its answers"""
-
-        return {
-            "question_text": self.question_text,
-            "answers": [answer.assemble() for answer in self.answers],
-        }
+        return cls.query.filter(cls.id == new_question.id).first().assemble()
 
 
 class Answers(db.Model):
