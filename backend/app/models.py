@@ -52,6 +52,26 @@ class Questions(db.Model):
 
         Returns: TODO:
         """
+
+        # Check for input errors
+        if len(question) != 2:
+            raise ValueError("Question dictionary must have 2 key, value pairs")
+
+        elif len(answers) != 4:
+            raise ValueError("Answers dictionary must have 4 key, value pairs")
+
+        elif (
+            list(question.keys())[0] != "question_text"
+            or list(question.keys())[1] != "level_id"
+        ):
+            raise KeyError("Wrong keys in question dictionary")
+
+        elif 1 not in list(answers.values()):
+            raise ValueError("A correct option must be provided")
+
+        elif list(answers.values()).count(1) > 1:
+            raise ValueError("Only 1 answer can be correct")
+
         new_question = cls(
             level_id=question["level_id"], question_text=question["question_text"]
         )
