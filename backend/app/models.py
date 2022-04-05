@@ -1,3 +1,5 @@
+import random
+
 from app import db
 
 
@@ -5,8 +7,17 @@ class Level(db.Model):
     __tablename__ = "levels"
 
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    level_name = db.Column(db.String(10), nullable=False, unique=True)
     level_prize = db.Column(db.Integer, nullable=False)
+
+    def assemble(self):
+
+        random_question = random.choice(self.questions)
+
+        return {
+            "level_name": self.id,
+            "prize": self.level_prize,
+            "questions": random_question.assemble(),
+        }
 
 
 class Questions(db.Model):
@@ -49,13 +60,19 @@ class Questions(db.Model):
             db.session.add(new_answer)
             db.session.commit()
 
+    def assemble(self):
+        return {
+            "question_text": self.question_text,
+            "answers": [answer.assemble() for answer in self.answers],
+        }
+
 
 class Answers(db.Model):
     __tablename__ = "answers"
 
     id = db.Column(db.Integer, primary_key=True, unique=True)
     question_id = db.Column(db.ForeignKey("questions.id"), index=True, nullable=False)
-    answer_text = db.Column(db.String(30), nullable=False)
+    answer_text = db.Column(db.String(50), nullable=False)
     correct = db.Column(db.Integer, nullable=False)
 
     questions = db.relationship(
@@ -63,3 +80,6 @@ class Answers(db.Model):
         primaryjoin="Answers.question_id == Questions.id",
         backref="answers",
     )
+
+    def assemble(self):
+        return {"answer_text": self.answer_text, "correct": self.correct}
