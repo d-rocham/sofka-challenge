@@ -122,4 +122,4 @@ class Answers(db.Model):
     def assemble(self):
         """Returns dictionary with answer text and correct status"""
 
-        return {"answer_text": self.answer_text, "correct": self.correct}
+        return {"answer_text": self.answer_text, "correct": self.correct, "id": self.id}
