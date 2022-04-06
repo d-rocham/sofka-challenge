@@ -6,6 +6,7 @@ import logging
 
 from config import config
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
@@ -45,6 +46,7 @@ def create_app(config_name):
     # Once the app is created, initialize extensions.
     db.init_app(app)
     migrate.init_app(app, db)
+    CORS(app)
 
     # Import & register application blueprints
     from .api import api_bp

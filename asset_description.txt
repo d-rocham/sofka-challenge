@@ -1,0 +1,12 @@
+== FONTS ==
+Ubuntu
+
+== COLORS ==
+
+Header: sky-600 (0284C7)
+GameInfo: slate-100 (F1F5F9)
+QuestionCard: blue-600 (3B82F6)
+AnswerCard (unanswered): amber-300 (FCD34D)
+AnswerCard (correct): lime-300 (BEF264)
+AnswerCard (incorrect): red-300 (FCA5A5)
+Background: white
