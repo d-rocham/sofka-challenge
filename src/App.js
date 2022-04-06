@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
-import Header from './layout/Layout';
-import MainGameContainer from './layout/MainGameContainer';
+import { Header, MainGameContainer } from './layout/Layout';
 
 function App() {
     return (
