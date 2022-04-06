@@ -11,6 +11,7 @@ import {
     GameInfoCard,
     QuestionCard
 } from '../components/InformationDisplay/InformationDisplay';
+import LoadingSpinner from '../components/loadingSpinner';
 import { AnswersContainer, GameSummary } from './Layout';
 
 function MainGameContainer() {
@@ -75,7 +76,7 @@ function MainGameContainer() {
     return (
         <div>
             {sessionLevels === undefined ? (
-                <p>Wait</p>
+                <LoadingSpinner />
             ) : gameIsFinished ? (
                 <GameSummary
                     gameResult={gameIsWon}
