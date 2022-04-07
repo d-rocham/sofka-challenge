@@ -20,7 +20,7 @@ function MainGameContainer() {
     // Fetch server for random levels upon page load
     useEffect(() => {
         const fetchLevels = async () => {
-            const res = await fetch('http://localhost:5000/api/questions/');
+            const res = await fetch('http://127.0.0.1:5000/api/questions/');
             const data = await res.json();
 
             setSessionLevels(data);

@@ -33,6 +33,12 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
 
+    # Enable HTTPS on Production config
+    if app.config["SSL_REDIRECT"]:
+        from flask_sslify import SSLify
+
+        sslify = SSLify(app)
+
     # STDOUT logging configuration & initialization for Heroku Deployment
     if app.config["LOG_TO_STDOUT"]:
         # TODO: Write documentation for this

@@ -42,11 +42,11 @@ class ProductionConfig(Config):
     LOG_TO_STDOUT = True
 
     # Check incoming request headers from HTTPS proxy server
-    """ @classmethod
+    @classmethod
     def init_app(cls, app):
         from werkzeug.middleware.proxy_fix import ProxyFix
 
-        app.wsgi_app = ProxyFix(app.wsgi_app) """
+        app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 config = {
