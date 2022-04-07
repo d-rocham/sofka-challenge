@@ -1,6 +1,6 @@
 # Sofka-Challenge
 
-Applicación web fullstack similar al juego "¿Quién quiere ser millonario?" creada con React JS, TailwindCSS, Python Flask y MySQL
+Applicación web fullstack similar al juego "¿Quién quiere ser millonario?" creada con React JS, TailwindCSS, Python Flask y MySQL. Una versión en vivo de la aplicación está hospedada en Heroku: https://sofka-challenge-app.herokuapp.com
 
 ## ¿Cómo ejecutar localmente?
 
@@ -123,5 +123,7 @@ Dentro de `./backend/tests` encontrará un paquete para ejecutar tests que compr
 
 ### Los archivos `.py` tienen clases de configuración y condicionales que no se utilizan ¿Por qué?
 
-La aplicación eśtá diseñada para poder ser subida a la plataforma Heroku, así que por ello cuenta con, por ejemplo, el paquete `Flask_sslify` y otras configuraciones. Sin embargo, dichos fragmentos de código no son necesarios para poder emplear la aplicación en `localhost`, pero si son requeridos por Heroku (junto con paquetes como `gunicorn` o un archivo `Procfile`) para correr la aplicación. Próximamente una versión en la nube será agregada a este repositorio
+La aplicación eśtá diseñada para poder ser subida a la plataforma Heroku, así que por ello cuenta con, por ejemplo, el paquete `Flask_sslify` y otras configuraciones. Sin embargo, dichos fragmentos de código no son necesarios para poder emplear la aplicación en `localhost`, pero si son requeridos por Heroku (junto con paquetes como `gunicorn` o un archivo `Procfile`) para correr la aplicación. 
+
+La aplicación en vivo puede ser abierta en https://sofka-challenge-app.herokuapp.com
 
