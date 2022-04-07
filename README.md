@@ -4,10 +4,12 @@ Applicación web fullstack similar al juego "¿Quién quiere ser millonario?" cr
 
 ## ¿Cómo ejecutar localmente?
 
-El repositorio cuenta con todo el código que construye la aplicación, incluyendo la carpeta `src` que alberga el código sin compilar de React JS. **Sin embargo, para ejecutar la aplicacíon a nivel local** sólo es necesario descargar la carpeta `backend`, dado que la aplicación de Flask está configurada para servir de forma estática los archivos producidos por Webpack una vez se ejecuta el comando `npm run build`
+El repositorio cuenta con todo el código que construye la aplicación, incluyendo la carpeta `src` que alberga el código sin compilar de React JS. **Sin embargo, para ejecutar la aplicacíon a nivel local** sólo es necesario descargar la carpeta `backend`, el archivo `requirements.txt` y los tres scripts SQL: `answers.sql`, `levels.sql` y `questions.sql`, dado que estos contienen las 25 preguntas de prueba para la aplicación. 
+
+La aplicación de Flask está configurada para servir de forma estática los archivos producidos por Webpack una vez se ejecuta el comando `npm run build`
 
 ### Cree el entorno virtual
-Una vez descargado el directorio `backend`, es necesario crear un entorno virtual para python (`.venv`) para descargar allí los paquetes que requiere la aplicación. En Linux:
+Una vez descargado el directorio `backend` y los otros archivos mencionados, es necesario crear un entorno virtual para python (`.venv`) para descargar allí los paquetes que requiere la aplicación. En Linux:
 
 ```
 # En Linux
@@ -44,6 +46,7 @@ FLASK_APP=backend.py
 FLASK_ENV=development
 FLASK_CONFIG=development
 ```
+
 ### Cree las tablas en la base de datos que acaba de crear
 Este proyecto consta con tres tablas `Questions`, `Answers` y `Levels`, definidas en `./backend/app/models.py`. Para crearlas, ejecute (siempre dentro del virtual environment):
 
@@ -113,6 +116,10 @@ Inserts a question inside Questions table and its associated answers inside Answ
             dict if the question is succesfully added, created by questions.assemble()
 """
 ```
+
+### Tests incluidos en la aplicación
+
+Dentro de `./backend/tests` encontrará un paquete para ejecutar tests que comprueban la funcionalidad de los modelos definidos en `models.py`, que es prácticamente el corazón de la aplicacíon. Para ejecutarlos, debe correr el comando `flask test` **desde el directorio** `./backend`.
 
 ### Los archivos `.py` tienen clases de configuración y condicionales que no se utilizan ¿Por qué?
 
