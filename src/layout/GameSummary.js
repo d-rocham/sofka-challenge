@@ -8,15 +8,15 @@ function GameSummary({ gameResult, finalPrize = null }) {
     return (
         <div>
             <h2 className="font-ubuntu text-6xl">
-                {gameResult === undefined
+                {gameResult === 1
                     ? 'Te retiraste'
-                    : gameResult
+                    : gameResult === 2
                     ? 'Ganaste'
                     : 'Has perdido'}
             </h2>
             <br />
             <div>
-                {gameResult === undefined || gameResult === true ? (
+                {gameResult === 1 || gameResult === 2 ? (
                     <div>
                         <p className="font-ubuntu text-4xl">{`Te llevas a casa ${finalPrize}`}</p>
                     </div>

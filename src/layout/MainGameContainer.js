@@ -15,53 +15,10 @@ import LoadingSpinner from '../components/loadingSpinner';
 import { AnswersContainer, GameSummary } from './Layout';
 
 function MainGameContainer() {
-    /* MAINGAMECONTAINER will launch a modal once the game ends */
-
+    // Game Session levels
     const [sessionLevels, setSessionLevels] = useState(undefined);
 
-    // Configure game session state
-    const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
-    const [gameIsFinished, setGameIsFinished] = useState(false);
-    const [gameIsWon, setGameIsWon] = useState(undefined);
-    const [accumulatedPrize, setAccumulatedPrize] = useState(0);
-
-    // Game management functions
-    const increasePrize = (prize) => {
-        setAccumulatedPrize(
-            (prevAccumulatedPrize) => prevAccumulatedPrize + prize
-        );
-    };
-
-    const handleAnswerSelection = (clickedAnswer) => {
-        setTimeout(() => {
-            if (!clickedAnswer) {
-                // If wrong answer is chosen, player looses everything and game finishes
-                setAccumulatedPrize(0);
-                setGameIsFinished(true);
-                setGameIsWon(false);
-            } else {
-                // If correct answer is chosen
-                increasePrize(sessionLevels[currentLevelIndex].prize);
-
-                if (currentLevelIndex === sessionLevels.length - 1) {
-                    // If current level is the last one.
-                    setGameIsFinished(true);
-                    setGameIsWon(true);
-                } else {
-                    // If correct answer is chosen but current level isn't the last one
-
-                    setCurrentLevelIndex(
-                        (prevCurrentLevelIndex) => prevCurrentLevelIndex + 1
-                    );
-                }
-            }
-        }, 300);
-    };
-
-    const voluntaryEndGame = () => {
-        setGameIsFinished(true);
-    };
-
+    // Fetch server for random levels upon page load
     useEffect(() => {
         const fetchLevels = async () => {
             const res = await fetch('http://localhost:5000/api/questions/');
@@ -73,13 +30,94 @@ function MainGameContainer() {
         fetchLevels();
     }, []);
 
+    // Configure game session states
+    const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
+    const [gameIsFinished, setGameIsFinished] = useState(undefined);
+    /* undefined = not finished
+        0 = lost
+        1 = abandoned
+        2 = won
+    */
+    // const [gameIsWon, setGameIsWon] = useState(undefined);
+    const [accumulatedPrize, setAccumulatedPrize] = useState(0);
+
+    // Game management functions
+    const increasePrize = (prize) => {
+        setAccumulatedPrize(
+            (prevAccumulatedPrize) => prevAccumulatedPrize + prize
+        );
+    };
+
+    const handleAnswerSelection = (clickedAnswer) => {
+        // Give user a small wait to see color change on clicked answer
+        setTimeout(() => {
+            if (!clickedAnswer) {
+                // If wrong answer is chosen, player looses everything and game finishes
+                setAccumulatedPrize(
+                    (prevAccumulatedPrize) =>
+                        prevAccumulatedPrize - prevAccumulatedPrize
+                );
+                setGameIsFinished(0);
+            } else {
+                // If correct answer is chosen
+                increasePrize(sessionLevels[currentLevelIndex].prize);
+
+                if (currentLevelIndex === sessionLevels.length - 1) {
+                    // If current level is the last one.
+                    setGameIsFinished(2);
+                } else {
+                    // If correct answer is chosen but current level isn't the last one
+                    setCurrentLevelIndex(
+                        (prevCurrentLevelIndex) => prevCurrentLevelIndex + 1
+                    );
+                }
+            }
+        }, 300);
+    };
+
+    /* Due to useState hook stale closure, accumulatedPrize doesn't update when user selects wrong answer.
+    Thus, useEffect is used. More info in https://dmitripavlutin.com/react-hooks-stale-closures/ */
+
+    useEffect(() => {
+        const saveResultsInLocalStorage = () => {
+            const gameKey = 'sofka-challenge-player';
+            const getGameInfo = () => localStorage.getItem(gameKey);
+
+            const resultsObject = {
+                finalPrize: accumulatedPrize,
+                result:
+                    gameIsFinished === 1
+                        ? 'Abandonaste'
+                        : gameIsFinished === 2
+                        ? 'Ganaste'
+                        : 'Perdiste'
+            };
+
+            // Check if gameKey already exists in localStorage. Prevent overwriting it
+            const gameLocalStorage = getGameInfo();
+
+            if (!gameLocalStorage) {
+                localStorage.setItem(gameKey, JSON.stringify([resultsObject]));
+            } else {
+                const currentInfo = JSON.parse(getGameInfo());
+
+                currentInfo.push(resultsObject);
+
+                localStorage.setItem(gameKey, JSON.stringify(currentInfo));
+            }
+        };
+        if (gameIsFinished !== undefined) {
+            saveResultsInLocalStorage();
+        }
+    }, [gameIsFinished]);
+
     return (
         <div>
             {sessionLevels === undefined ? (
                 <LoadingSpinner />
-            ) : gameIsFinished ? (
+            ) : gameIsFinished !== undefined ? (
                 <GameSummary
-                    gameResult={gameIsWon}
+                    gameResult={gameIsFinished}
                     finalPrize={accumulatedPrize}
                 />
             ) : (
@@ -105,7 +143,7 @@ function MainGameContainer() {
                     {accumulatedPrize > 0 ? (
                         <div
                             className="bg-orange-400 text-white font-ubuntu font-medium text-xl mx-2 mt-6 py-2 hover:cursor-pointer"
-                            onClick={() => voluntaryEndGame()}
+                            onClick={() => setGameIsFinished(1)}
                         >
                             Retirarme con mi premio
                         </div>
