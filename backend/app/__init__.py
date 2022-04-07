@@ -53,4 +53,8 @@ def create_app(config_name):
 
     app.register_blueprint(api_bp)
 
+    from .static_route import static_resource_bp
+
+    app.register_blueprint(static_resource_bp)
+
     return app
