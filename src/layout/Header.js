@@ -10,14 +10,14 @@ function Header() {
 
     return (
         <div className="Header w-full sticky top-0 bg-sky-600 mb-3">
-            <div className="Header-Flex-Container p-2 flex flex-row justify-evenly items-center text-white">
-                <IoMdClock
-                    className="text-4xl"
-                    onClick={() => ShowResultsModal.toggleModal()}
-                />
-                <h2 className="HeaderTitle grow font-ubuntu font-medium text-4xl ">
+            <div className="Header-Flex-Container p-2 flex flex-row justify-between items-center text-white">
+                <h2 className="HeaderTitle pl-2 font-ubuntu font-medium text-4xl ">
                     MILLONARIO
                 </h2>
+                <IoMdClock
+                    className="text-4xl hover:cursor-pointer"
+                    onClick={() => ShowResultsModal.toggleModal()}
+                />
             </div>
             <ModalComponent
                 isVisible={ShowResultsModal.isVisible}

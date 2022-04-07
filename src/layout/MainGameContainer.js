@@ -1,5 +1,4 @@
 /* eslint-plugin-disable jsx-a11y */
-/* eslint-plugin-disable jsx-a11y */
 /* eslint no-nested-ternary: [0] */
 /* eslint no-nested-ternary: [0] */
 /* eslint no-unused-vars: [1] */

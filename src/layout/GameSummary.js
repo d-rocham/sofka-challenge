@@ -1,3 +1,5 @@
+/* eslint-plugin-disable jsx-a11y */
+
 /* eslint no-unused-vars: [1] */
 /* eslint no-nested-ternary: [0] */
 
@@ -25,6 +27,12 @@ function GameSummary({ gameResult, finalPrize = null }) {
                         Mejor suerte en una próxima oportunidad
                     </p>
                 )}
+            </div>
+            <div
+                className="bg-orange-400 text-white font-ubuntu font-medium text-xl mx-2 mt-6 md:mt-4 py-2 hover:cursor-pointer md:w-96 md:my-0 md:mx-auto"
+                onClick={() => window.location.reload(true)}
+            >
+                ¡Jugar de nuevo!
             </div>
         </div>
     );
